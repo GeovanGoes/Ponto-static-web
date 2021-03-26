@@ -15,12 +15,14 @@
             });
 
             function marcarPonto(){
-                $.post( "https://ponto-service.herokuapp.com/api/lancamentos", {dataHoraLancamento: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + (new Date().getDate() < 10 ? "0"+new Date().getDate() : new Date().getDate()) + " " + new Date().getHours() + ":" + new Date().getMinutes()}, function( data ) {
-                    console.log(data);
-                }, 'application/json').done(function (data) {
-                    alert("Inserido!");
-                    document.location.reload(true);
-                });
+                $.ajax({ 
+                    type:"POST",
+                    url: "https://ponto-service.herokuapp.com/api/lancamentos", 
+                    data: {dataHoraLancamento: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + (new Date().getDate() < 10 ? "0"+new Date().getDate() : new Date().getDate()) + " " + new Date().getHours() + ":" + new Date().getMinutes()}, 
+                    success: function( data ) {
+                        console.log(data);
+                        document.location.reload(true);
+                    }});
             }
 
             function listar(){
