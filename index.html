@@ -10,6 +10,10 @@
 
         <script>
             
+			
+			var baseUrl = "https://ponto-service.herokuapp.com";
+			//var baseUrl = "localhost:9000";
+			
             $(document).ready(function (){
                 listar();
             });
@@ -37,7 +41,7 @@
             function marcarPonto(param){
                 $.ajax({ 
                     type:"POST",
-                    url: "https://ponto-service.herokuapp.com/api/lancamentos", 
+                    url: baseUrl + "/api/lancamentos", 
                     data: {dataHoraLancamento: param}, 
                     success: function( data ) {
                         console.log(data);
@@ -46,13 +50,16 @@
             }
 
             function listar(){
-                $.get( "https://ponto-service.herokuapp.com/api/lancamentos", function( data ) {
+                $.get( baseUrl + "/api/lancamentos", function( data ) {
                 
                     console.log( data );
 
+					if (data == null)
+						return;
+					
                     let arrDivs = [];
 
-                    let arrLancamentos = data.result.lancamentos;
+                    let arrLancamentos = data;
 
                     console.log(arrLancamentos);
                     let divDias = '';
