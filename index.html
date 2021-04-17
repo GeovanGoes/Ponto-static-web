@@ -106,32 +106,39 @@
         </script>
     </head>
     <body>
-        <div class="container">
-            <div class="col-auto">
-                <button type="button" onclick="marcarPontoAgora()" class="btn btn-primary mb-3">Marcar Ponto Agora!</button>
-              </div>
+	
+	<div class="jumbotron jumbotron-fluid">
+	  <div class="container">
+		<h1 class="display-4">Lancamentos</h1>
+	  </div>
+	</div>
+        <div class="container-fluid jumbotron">
+			
+		
+			<div class="row g-3 justify-content-md-center">
+				<div class="col-auto">
+					<button type="button" onclick="marcarPontoAgora()" class="form-control btn btn-primary mb-3">Marcar Ponto Agora!</button>
+				</div>
 
-              <div class="row g-3">
+              <div class="row g-3 justify-content-md-center" >
                   <div class="col-auto">
                     <label for="staticEmail2" class="visually-hidden">Hora</label>
-                    <input type="text" class="form-control" id="hora" placeholder="12">
+                    <input type="text" class="form-control" id="hora" placeholder="12" maxlength="2">
                   </div>
                   <div class="col-auto">
                     <label for="inputPassword2" class="visually-hidden">Minutos</label>
-                    <input type="text" class="form-control" id="minuto" placeholder="30">
+                    <input type="text" class="form-control" id="minuto" placeholder="30" maxlength="2">
                   </div>
                   <div class="col-auto">
                     <button type="button" onclick="marcarPontoHora()" class="btn btn-primary mb-3">Marcar Ponto Horário!</button>
                   </div>
               </div>
+			</div>
         </div>
         <div class="container">
-            <div class="jumbotrom">
-                Lancamentos
-            </div>
             <div class="row justify-content-md-center">
                 
-                <div id="lancamentos" class="col-12">
+                <div id="lancamentos" class="col-12 justify-content-md-center">
                     <div id="${dia} - ${arrHorarios[j]}" class="col-1">
 					</div>
                 </div>
