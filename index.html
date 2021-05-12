@@ -76,6 +76,7 @@
                     for (i = 0 ; i < arrLancamentos.length ; i++) {
 
                         let dia = arrLancamentos[i].data;
+                        let soma = arrLancamentos[i].soma;
                         let arrHorarios = arrLancamentos[i].registros;
                         
                         let divsHorarios = '';
@@ -91,7 +92,7 @@
 
 
                         let divDia = `<div id="${dia}" class="row"> 
-                            <div id="data" class="col-12"><strong>${dia}</strong></div>
+                            <div id="data" class="col-12"><strong>${dia} - Horas Trabalhadas: ${soma} </strong></div>
                                 ${divsHorarios}
                             </div>`;
 
