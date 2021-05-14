@@ -16,11 +16,24 @@
 			var baseUrl = "https://ponto-service.herokuapp.com";
 			//var baseUrl = "localhost:9000";
 			
+			var tableDiv = '';
+			
             $(document).ready(function (){
                 listar();
+				
+				
+				$("#btnExport").click(function(e) {
+				  var a = document.createElement('a');
+				  var data_type = 'data:application/vnd.ms-excel';
+				  var table_html = tableDiv.replace(/ /g, '%20');
+				  console.log(table_html);
+				  a.href = data_type + ', ' + table_html;
+				  a.download = 'ponto.xls';
+				  a.click();
+				  e.preventDefault();
+				});
             });
-
-
+			
             function marcarPontoHora() {
                 
                 let hora = $('#hora').val();
@@ -73,6 +86,9 @@
                     let arrLancamentos = data;
 
                     let divDias = '';
+					
+					let linhas = '';
+					
                     for (i = 0 ; i < arrLancamentos.length ; i++) {
 
                         let dia = arrLancamentos[i].data;
@@ -80,6 +96,9 @@
                         let arrHorarios = arrLancamentos[i].registros;
                         
                         let divsHorarios = '';
+						
+						let celulas = '';
+						
                         for (j = 0 ; j < arrHorarios.length ; j++) {
                             divsHorarios = divsHorarios + 
                             `<div id="${dia} - ${arrHorarios[j]}" class="col-1">
@@ -88,8 +107,11 @@
 												  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
 												</svg>
                             </div>`;
+							
+							celulas = celulas + `<td> ${arrHorarios[j]}</td>`
                         }
-
+						let linha = `<tr><td>${dia}</td> ${celulas} </tr>`;
+						linhas = linhas + linha;
 
                         let divDia = `<div id="${dia}" class="row"> 
                             <div id="data" class="col-12"><strong>${dia}</strong></div>
@@ -100,6 +122,14 @@
                         
                         
                     }
+					
+					
+					
+					tableDiv = `<div id="dvData"> <table>
+									${linhas}											
+								</table></div>`;
+								
+					
                     $("#lancamentos").append(divDias);                
                 });
             }
@@ -134,6 +164,8 @@
                     <button type="button" onclick="marcarPontoHora()" class="btn btn-primary mb-3">Marcar Ponto Horário!</button>
                   </div>
               </div>
+			  
+			  <input type="button" id="btnExport" value=" Exportar em Excel " />
 			</div>
         </div>
         <div class="container">
