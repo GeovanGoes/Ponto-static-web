@@ -21,7 +21,13 @@
             $(document).ready(function (){
                 listar();
 				
-				
+				var now = new Date();
+
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+                $('#data').val(today);
+
 				$("#btnExport").click(function(e) {
 				  var a = document.createElement('a');
 				  var data_type = 'data:application/vnd.ms-excel';
@@ -38,13 +44,15 @@
                 
                 let hora = $('#hora').val();
                 let minuto = $('#minuto').val();
+                let data = $('#data').val();
+                console.log(data);
 
-                if (hora == "" || minuto == "") {
+                if (hora == "" || minuto == "" || data == "") {
                     alert('Preenchimento de data e hora obrigatório');
                     return;
                 }
 
-                let param = new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" + (new Date().getDate() < 10 ? "0"+new Date().getDate() : new Date().getDate()) + " " + hora + ":" + minuto;
+                let param = data.split('-')[0] + "-" + data.split('-')[1] + "-" + data.split('-')[2] + " " + hora + ":" + minuto;
                 marcarPonto(param);
             }
 
@@ -151,7 +159,11 @@
 					<button type="button" onclick="marcarPontoAgora()" class="form-control btn btn-primary mb-3">Marcar Ponto Agora!</button>
 				</div>
 
-              <div class="row g-3 justify-content-md-center" >
+              <div class="row g-3 justify-content-md-center">
+                  <div class="col-auto">
+                    <label for="lbl-data-selecionada" class="visually-hidden">Data</label>
+                    <input type="date" class="form-control" id="data">
+                  </div>
                   <div class="col-auto">
                     <label for="staticEmail2" class="visually-hidden">Hora</label>
                     <input type="text" class="form-control" id="hora" placeholder="12" maxlength="2">
