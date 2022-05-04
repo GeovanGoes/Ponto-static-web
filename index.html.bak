@@ -13,8 +13,8 @@
         <script>
             
 			
-			var baseUrl = "https://ponto-service.herokuapp.com";
-			//var baseUrl = "localhost:9000";
+			//var baseUrl = "https://ponto-service.herokuapp.com";
+			var baseUrl = "localhost:9000";
 			
 			var tableDiv = '';
 			
