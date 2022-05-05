@@ -32,7 +32,6 @@
 				  var a = document.createElement('a');
 				  var data_type = 'data:application/vnd.ms-excel';
 				  var table_html = tableDiv.replace(/ /g, '%20');
-				  console.log(table_html);
 				  a.href = data_type + ', ' + table_html;
 				  a.download = 'ponto.xlsx';
 				  a.click();
@@ -45,7 +44,6 @@
                 let hora = $('#hora').val();
                 let minuto = $('#minuto').val();
                 let data = $('#data').val();
-                console.log(data);
 
                 if (hora == "" || minuto == "" || data == "") {
                     alert('Preenchimento de data e hora obrigatório');
@@ -85,7 +83,6 @@
 			
 			function nomeDoDiaDaSemana(num) {
 				var days = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-				console.log(num, " - ", days[ num]);
 				return days[ num];
 			}
 			
@@ -93,8 +90,7 @@
 				 
 			    var oneJan =  new Date(todaydate.getFullYear(), 0, 1);   
 			    var numberOfDays =  Math.floor((todaydate - oneJan) / (24 * 60 * 60 * 1000));   
-				var result = Math.ceil(( todaydate.getDay() + 1 + numberOfDays) / 7);  
-				console.log(result);
+				var result = Math.ceil(( todaydate.getDay() + 1 + numberOfDays) / 7); 
 				return result;
 			}
 	
@@ -112,7 +108,7 @@
 					
 					let linhas = '';
 					
-					var weekNumber = 0;
+					var weekNumber = arrLancamentos[0].numeroDaSemana;
 					
                     for (i = 0 ; i < arrLancamentos.length ; i++) {
 
@@ -120,20 +116,22 @@
 						let anoProcess = dia.split("-")[2];
 						let mesProcess = dia.split("-")[1]-1;
 						let diaProcess = dia.split("-")[0];
-						
 						let date = new Date(anoProcess, mesProcess, diaProcess);
 						
 						
 						let dayOfWeek = nomeDoDiaDaSemana(date.getDay());
 						var pulaLinha = false;
+                        
 						
-						if (weekNumber != getWeekNumber(date)) {
-							weekNumber = getWeekNumber(date);
+						if (weekNumber != arrLancamentos[i].numeroDaSemana) {
 							pulaLinha = true;
-							console.log("Puuuuuuuuuuuuula!");
-						} else
-							pulaLinha = false;
-							
+						} else {
+                            pulaLinha = false;
+                        }
+
+
+                        weekNumber = arrLancamentos[i].numeroDaSemana;
+                        
                         let soma = arrLancamentos[i].soma;
                         let arrHorarios = arrLancamentos[i].registros;
                         
@@ -155,12 +153,17 @@
 						let linha = `<tr><td>${dayOfWeek}</td><td>${dia}</td> ${celulas} </tr>`;
 						linhas = linhas + linha;
 
-                        let divDia = `<div id="${dia}" class="row"> 
+
+
+                        let divDia =  '';
+
+                        if (pulaLinha)
+                            divDia = divDia + `<div class="row" ></br></br></div>`;
+
+                        divDia = divDia + `<div id="${dia}" class="row"> 
                             <div id="data" class="col-12"><strong>${dia}</strong> - ${dayOfWeek} </div>
                                 ${divsHorarios} <div class="col-1"><strong>${soma}</strong></div>
                             </div>`;
-						if (pulaLinha)
-							divDia = divDia + `<div class="row" ></div>`;
 
                         divDias = divDias + divDia;
                         
