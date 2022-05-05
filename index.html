@@ -15,10 +15,16 @@
 			
 			var baseUrl = "https://ponto-service.herokuapp.com";
 			//var baseUrl = "localhost:9000";
+			var email = '';
 			
 			var tableDiv = '';
 			
+			
             $(document).ready(function (){
+				const urlSearchParams = new URLSearchParams(window.location.search);
+				const params = Object.fromEntries(urlSearchParams.entries());
+				email = params.email;
+			
                 listar();
 				
 				var now = new Date();
@@ -63,7 +69,7 @@
                 $.ajax({ 
                     type:"POST",
                     url: baseUrl + "/api/lancamentos", 
-                    data: {dataHoraLancamento: param, email: "geovansilvagoes@gmail.com"}, 
+                    data: {dataHoraLancamento: param, email: email}, 
                     success: function( data ) {
                         document.location.reload(true);
                     }});
@@ -75,7 +81,7 @@
 				$.ajax({ 
                     type:"DELETE",
                     url: baseUrl + "/api/lancamentos", 
-                    data: {dataHoraLancamento: param, email: "geovansilvagoes@gmail.com"}, 
+                    data: {dataHoraLancamento: param, email: email}, 
                     success: function( data ) {
                         document.location.reload(true);
                     }});
@@ -95,7 +101,7 @@
 			}
 	
             function listar(){
-                $.get( baseUrl + "/api/lancamentos?email=geovansilvagoes@gmail.com", function( data ) {
+                $.get( baseUrl + "/api/lancamentos?email="+email, function( data ) {
                 
 					if (data == null)
 						return;
