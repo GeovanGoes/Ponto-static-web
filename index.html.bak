@@ -24,9 +24,10 @@
 				const urlSearchParams = new URLSearchParams(window.location.search);
 				const params = Object.fromEntries(urlSearchParams.entries());
 				email = params.email;
-				console.log(email);
 			
                 listar();
+				
+				buscarDadosUsuarioLogado();
 				
 				var now = new Date();
 
@@ -75,6 +76,12 @@
                         document.location.reload(true);
                     }});
             }
+			
+			function buscarDadosUsuarioLogado(){
+				$.get( baseUrl + "/api/usuarios?email="+email, function( data ) {
+					console.log(data);
+				});
+			}
 	
 	
 			function remove(param){
@@ -195,6 +202,7 @@
 	<div class="jumbotron jumbotron-fluid">
 	  <div class="container">
 		<h1 class="display-4">Lancamentos</h1>
+		<h4 id="nome-usuario"></h4>
 	  </div>
 	</div>
         <div class="container-fluid jumbotron">

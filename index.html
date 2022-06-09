@@ -27,6 +27,8 @@
 			
                 listar();
 				
+				buscarDadosUsuarioLogado();
+				
 				var now = new Date();
 
                 var day = ("0" + now.getDate()).slice(-2);
@@ -74,6 +76,13 @@
                         document.location.reload(true);
                     }});
             }
+			
+			function buscarDadosUsuarioLogado(){
+				$.get( baseUrl + "/api/usuarios?email="+email, function( data ) {
+					console.log(data);
+					$("#nome-usuario").append(data.nome);
+				});
+			}
 	
 	
 			function remove(param){
@@ -194,6 +203,7 @@
 	<div class="jumbotron jumbotron-fluid">
 	  <div class="container">
 		<h1 class="display-4">Lancamentos</h1>
+		<h4 id="nome-usuario"></h4>
 	  </div>
 	</div>
         <div class="container-fluid jumbotron">
