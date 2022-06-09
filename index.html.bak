@@ -80,6 +80,7 @@
 			function buscarDadosUsuarioLogado(){
 				$.get( baseUrl + "/api/usuarios?email="+email, function( data ) {
 					console.log(data);
+					$("#nome-usuario").append(data.nome);
 				});
 			}
 	

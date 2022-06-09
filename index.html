@@ -70,8 +70,7 @@
             function marcarPonto(param){
                 $.ajax({ 
                     type:"POST",
-                    url: baseUrl + "/api/lancamentos", 
-                    data: {dataHoraLancamento: param, email: email}, 
+                    url: baseUrl + "/api/lancamentos?dataHoraLancamento="+param+"&email="+email, 
                     success: function( data ) {
                         document.location.reload(true);
                     }});
@@ -89,8 +88,7 @@
 				param = param.split("#")[0].split("-")[2] + "-" + param.split("#")[0].split("-")[1] + "-" + param.split("#")[0].split("-")[0] + " " + param.split("#")[1].split("-");
 				$.ajax({ 
                     type:"DELETE",
-                    url: baseUrl + "/api/lancamentos", 
-                    data: {dataHoraLancamento: param, email: email}, 
+                    url: baseUrl + "/api/lancamentos?dataHoraLancamento="+param+"&email="+email,
                     success: function( data ) {
                         document.location.reload(true);
                     }});
