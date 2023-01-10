@@ -13,9 +13,10 @@
         <script>
             
 			
-			var baseUrl = "https://ponto-service.herokuapp.com";
-			//var baseUrl = "localhost:9000";
+			//var baseUrl = "https://ponto-service.herokuapp.com";
+			var baseUrl = "http://localhost:3000";
 			var email = '';
+			var idUsuario = 0;
 			
 			var tableDiv = '';
 			
@@ -25,10 +26,8 @@
 				const params = Object.fromEntries(urlSearchParams.entries());
 				email = params.email;
 			
-                listar();
-				
 				buscarDadosUsuarioLogado();
-				
+								
 				var now = new Date();
 
                 var day = ("0" + now.getDate()).slice(-2);
@@ -80,27 +79,43 @@
             }
 
             function marcarPonto(param){
-                $.ajax({ 
-                    type:"POST",
-                    url: baseUrl + "/api/lancamentos?dataHoraLancamento="+param+"&email="+email, 
-                    success: function( data ) {
-                        document.location.reload(true);
-                    }});
+				var dados = {
+						dataHora: param,
+						usuario: {
+							_id: idUsuario
+						}
+					};
+				var settings = {
+				  "url": baseUrl + "/api/lancamentos",
+				  "method": "POST",
+				  "timeout": 0,
+				  "headers": {
+					"Content-Type": "application/json"
+				  },
+				  "data": JSON.stringify(dados),
+				};
+
+				$.ajax(settings).done(function (response) {
+				  document.location.reload(true);
+				});
             }
 			
 			function buscarDadosUsuarioLogado(){
 				$.get( baseUrl + "/api/usuarios?email="+email, function( data ) {
 					console.log(data);
 					$("#nome-usuario").append(data.nome);
+					idUsuario = data._id;
+					listar();
 				});
 			}
 	
 	
 			function remove(param){
-				param = param.split("#")[0].split("-")[2] + "-" + param.split("#")[0].split("-")[1] + "-" + param.split("#")[0].split("-")[0] + " " + param.split("#")[1].split("-");
+				param = param.split("#")[0].split("/")[2] + "-" + param.split("#")[0].split("/")[1] + "-" + param.split("#")[0].split("/")[0] + " " + param.split("#")[1].split("/");
+				console.log(param);
 				$.ajax({ 
                     type:"DELETE",
-                    url: baseUrl + "/api/lancamentos?dataHoraLancamento="+param+"&email="+email,
+                    url: baseUrl + "/api/lancamentos?dataHora="+param+"&idUsuario="+idUsuario,
                     success: function( data ) {
                         document.location.reload(true);
                     }});
@@ -120,7 +135,7 @@
 			}
 	
             function listar(){
-                $.get( baseUrl + "/api/lancamentos?email="+email, function( data ) {
+                $.get( baseUrl + "/api/lancamentos?idUsuario="+idUsuario, function( data ) {
                 
 					if (data == null)
 						return;
@@ -138,9 +153,9 @@
                     for (i = 0 ; i < arrLancamentos.length ; i++) {
 
                         let dia = arrLancamentos[i].data;
-						let anoProcess = dia.split("-")[2];
-						let mesProcess = dia.split("-")[1]-1;
-						let diaProcess = dia.split("-")[0];
+						let anoProcess = dia.split("/")[2];
+						let mesProcess = dia.split("/")[1]-1;
+						let diaProcess = dia.split("/")[0];
 						let date = new Date(anoProcess, mesProcess, diaProcess);
 						
 						
@@ -254,7 +269,7 @@
 
             </div>
         </div>
-		<div id="hidden-div">
+		<div id="hidden-div" style="display: none">
 		</div>
     </body>
 </html>
